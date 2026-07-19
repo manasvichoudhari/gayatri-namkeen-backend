@@ -24,9 +24,25 @@ const app = express();
 
 
 // Middleware
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "http://localhost:5175",
+  "https://your-vercel-app.vercel.app", // deploy ke baad actual Vercel URL
+];
+
 app.use(
   cors({
-    origin: true,
+    origin: function (origin, callback) {
+      // Postman/mobile apps/no-origin requests allow
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );

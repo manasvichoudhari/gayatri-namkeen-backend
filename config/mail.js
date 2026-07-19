@@ -4,6 +4,12 @@ const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
+  pool: true,
+
+  maxConnections: 5,
+
+  maxMessages: 100,
+
   auth: {
     user: process.env.EMAIL,
     pass: process.env.EMAIL_PASSWORD,
