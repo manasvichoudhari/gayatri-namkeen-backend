@@ -1,5 +1,5 @@
 const express = require("express");
-
+const protect = require("../middleware/authMiddleware");
 const router = express.Router();
 
 const {
@@ -13,11 +13,15 @@ const {
 router.get("/test", (req, res) => {
   res.json({ message: "Cart route working 👍" });
 });
-router.post("/add", addToCart);
-router.get("/:userId", getCartItems);
-router.delete("/remove/:id", removeCartItem);
-router.delete("/clear/:userId", clearCart);
-router.put("/increase/:id", increaseQuantity);
-router.put("/decrease/:id", decreaseQuantity);
+router.post("/add", protect, addToCart);
+
+router.get("/",protect,getCartItems);
+router.delete("/:id", protect, removeCartItem);
+
+router.put("/increase/:id", protect, increaseQuantity);
+
+router.put("/decrease/:id", protect, decreaseQuantity);
+
+router.delete("/clear", protect, clearCart);
 
 module.exports = router;
