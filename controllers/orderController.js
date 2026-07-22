@@ -14,7 +14,7 @@ console.log(
   "req.body:",
   JSON.stringify(req.body, null, 2)
 );
-console.log("Inside createOrder req.user:", req.user);
+
 exports.createOrder = async (req, res) => {
 
   try {
