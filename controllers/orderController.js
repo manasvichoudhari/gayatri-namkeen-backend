@@ -8,20 +8,11 @@ const {
 
 
 // CREATE ORDER
-console.log("req.user:", req.user);
-
-console.log(
-  "req.body:",
-  JSON.stringify(req.body, null, 2)
-);
-
 exports.createOrder = async (req, res) => {
 
   try {
     console.log("req.user =", req.user);
     console.log("req.body =", req.body);
-
-
     const order = await Order.create({
 
       userId: req.user._id,
