@@ -8,10 +8,18 @@ const {
 
 
 // CREATE ORDER
+console.log("req.user:", req.user);
 
+console.log(
+  "req.body:",
+  JSON.stringify(req.body, null, 2)
+);
+console.log("Inside createOrder req.user:", req.user);
 exports.createOrder = async (req, res) => {
 
   try {
+    console.log("req.user =", req.user);
+    console.log("req.body =", req.body);
 
 
     const order = await Order.create({
@@ -78,22 +86,21 @@ exports.createOrder = async (req, res) => {
 
 
 
-  } catch(err){
-
-
-    console.log("CREATE ORDER ERROR:",err);
-
-
+  } catch (err) {
+    console.error(err);
+  
+    if (err.name === "ValidationError") {
+      console.error(err.errors);
+    }
+  
     res.status(500).json({
-
-      success:false,
-
-      message:err.message,
-
+      success: false,
+      message: err.message,
     });
-
-
   }
+
+
+  
 
 
 };
@@ -104,48 +111,28 @@ exports.createOrder = async (req, res) => {
 
 // GET USER ORDERS
 
-exports.getUserOrders = async(req,res)=>{
+exports.getUserOrders = async (req, res) => {
+  try {
+
+    const orders = await Order.find({
+      userId: req.user._id,
+    }).sort({
+      createdAt: -1,
+    });
 
 
-try{
+    res.status(200).json({
+      success:true,
+      orders,
+    });
 
 
-const orders = await Order.find({
+  } catch (err) {
 
-userId:req.user._id
+    res.status(500).json({
+      success:false,
+      message:err.message,
+    });
 
-})
-.sort({
-
-createdAt:-1
-
-});
-
-
-
-res.status(200).json({
-
-success:true,
-
-orders
-
-});
-
-
-
-}catch(err){
-
-
-res.status(500).json({
-
-success:false,
-
-message:err.message
-
-});
-
-
-}
-
-
+  }
 };
