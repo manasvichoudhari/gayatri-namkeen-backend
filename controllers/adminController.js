@@ -2,6 +2,7 @@ console.log("Admin Controller Loaded");
 const jwt = require("jsonwebtoken");
 const Order = require("../models/Order");
 const Product = require("../models/Product");
+const User = require("../models/User");
 const { sendOrderStatusEmail } = require("../services/emailService");
 
 const adminLogin = async (req, res) => {
@@ -176,7 +177,30 @@ const getDashboard = async (req, res) => {
     });
   }
 };
-const User = require("../models/User");
+const getAllOrders = async (req, res) => {
+  try {
+
+    const orders = await Order.find()
+      .populate("userId", "name email")
+      .sort({ createdAt: -1 });
+
+
+    res.status(200).json({
+      success: true,
+      orders,
+    });
+
+
+  } catch (error) {
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+
+  }
+};
+
 
 const getAllUsers = async (req, res) => {
   try {
