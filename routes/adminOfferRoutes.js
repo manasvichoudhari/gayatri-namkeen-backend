@@ -14,6 +14,7 @@ router.post("/", adminAuth, createOffer);
 
 // GET ALL
 router.get("/",  getAllOffers);
+router.get("/active", getActiveOffers);
 
 
 

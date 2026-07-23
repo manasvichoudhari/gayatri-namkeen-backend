@@ -48,21 +48,23 @@ const adminLogin = async (req, res) => {
     });
   }
 };
-const getAllOrders = async (req, res) => {
+exports.getAllUsers = async (req,res)=>{
   try {
-    const orders = await Order.find().sort({ createdAt: -1 });
 
-    return res.status(200).json({
-      success: true,
-      orders,
-    });
-  } catch (error) {
-    console.log("Get Orders Error:", error);
+    const users = await User.find().select("-password");
 
-    return res.status(500).json({
-      success: false,
-      message: "Failed to fetch orders",
+    res.status(200).json({
+      success:true,
+      users
     });
+
+  } catch(error){
+
+    res.status(500).json({
+      success:false,
+      message:error.message
+    });
+
   }
 };
 const updateOrderStatus = async (req, res) => {

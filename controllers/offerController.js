@@ -2,26 +2,92 @@ const Offer = require("../models/Offers");
 
 // CREATE
 const createOffer = async (req, res) => {
-  const offer = await Offer.create(req.body);
-  res.json({ success: true, offer });
+  try {
+    const offer = await Offer.create(req.body);
+
+    res.json({
+      success: true,
+      offer,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
+
 
 // GET ALL
 const getAllOffers = async (req, res) => {
-  const offers = await Offer.find().sort({ createdAt: -1 });
-  res.json({ success: true, offers });
+  try {
+    const offers = await Offer.find().sort({
+      createdAt: -1,
+    });
+
+    res.json({
+      success: true,
+      offers,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
 
+
+// GET ACTIVE OFFERS
+const getActiveOffers = async (req, res) => {
+  try {
+
+    const offers = await Offer.find({
+      isActive: true,
+    });
+
+    res.json({
+      success: true,
+      offers,
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      success:false,
+      message:error.message,
+    });
+
+  }
+};
 
 
 // DELETE
 const deleteOffer = async (req, res) => {
-  await Offer.findByIdAndDelete(req.params.id);
-  res.json({ success: true });
+  try {
+
+    await Offer.findByIdAndDelete(req.params.id);
+
+    res.json({
+      success: true,
+    });
+
+  } catch(error){
+
+    res.status(500).json({
+      success:false,
+      message:error.message,
+    });
+
+  }
 };
+
 
 module.exports = {
   createOffer,
   getAllOffers,
+  getActiveOffers,
   deleteOffer,
 };
