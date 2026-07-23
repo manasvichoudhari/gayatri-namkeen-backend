@@ -16,12 +16,13 @@ router.get("/test", (req, res) => {
 router.post("/add", protect, addToCart);
 
 router.get("/",protect,getCartItems);
+router.delete("/clear", protect, clearCart);
 router.delete("/:id", protect, removeCartItem);
 
 router.put("/increase/:id", protect, increaseQuantity);
 
 router.put("/decrease/:id", protect, decreaseQuantity);
 
-router.delete("/clear", protect, clearCart);
+
 
 module.exports = router;

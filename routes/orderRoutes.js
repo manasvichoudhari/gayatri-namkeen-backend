@@ -7,11 +7,7 @@ const protect = require("../middleware/authMiddleware");
 
 
 // CREATE ORDER
-router.post(
-  "/",
-  protect,
-  createOrder
-);
+router.post("/",protect,createOrder);
 
 
 // USER ORDERS

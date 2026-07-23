@@ -7,6 +7,11 @@ const { sendOrderStatusEmail } = require("../services/emailService");
 const adminLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log("Email from frontend:", email);
+    console.log("Password from frontend:", password);
+
+    console.log("ENV Email:", process.env.ADMIN_EMAIL);
+    console.log("ENV Password:", process.env.ADMIN_PASSWORD);
 
     if (
       email !== process.env.ADMIN_EMAIL ||
